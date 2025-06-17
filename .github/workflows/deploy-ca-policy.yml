@@ -1,0 +1,39 @@
+name: Deploy Conditional Access Policies
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'policies/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate policy naming convention
+        shell: pwsh
+        run: ./scripts/validate-policies.ps1
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Microsoft Graph PowerShell modules
+        shell: pwsh
+        run: |
+          Install-Module Microsoft.Graph.Identity.SignIns -Force -Scope CurrentUser
+          Import-Module Microsoft.Graph.Identity.SignIns
+      - name: Deploy Conditional Access Policies and Send Notification
+        id: deploy-policy
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          WORKFLOW_NAME: ${{ github.workflow }}
+          RUN_ID: ${{ github.run_id }}
+        shell: pwsh
+        run: ./scripts/crud-policies.ps1
+

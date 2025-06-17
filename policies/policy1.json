@@ -1,0 +1,43 @@
+{
+  "displayName": "GH - 02 - Block Legacy Authentication",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "userRiskLevels": [],
+    "signInRiskLevels": [],
+    "clientAppTypes": [
+      "exchangeActiveSync",
+      "other"
+    ],
+    "platforms": null,
+    "locations": null,
+    "deviceStates": null,
+    "applications": {
+      "includeApplications": [
+        "All"
+      ],
+      "excludeApplications": [],
+      "includeUserActions": []
+    },
+    "users": {
+      "includeUsers": [
+        "All"
+      ],
+      "excludeUsers": [],
+      "includeGroups": [],
+      "excludeGroups": [
+        "ID-OF-YOUR-EXCLUSION-GROUP" 
+      ],
+      "includeRoles": [],
+      "excludeRoles": []
+    }
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": [
+      "block"
+    ],
+    "customAuthenticationFactors": [],
+    "termsOfUse": []
+  },
+  "sessionControls": null
+}
