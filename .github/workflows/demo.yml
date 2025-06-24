@@ -1,0 +1,16 @@
+name: Simple CI/CD-DEMO ONE
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - uses: actions/checkout@v3
+ 
+      - name: Run a script
+        run: echo "Code pushed to main branch. Running CI/CD pipeline..."
